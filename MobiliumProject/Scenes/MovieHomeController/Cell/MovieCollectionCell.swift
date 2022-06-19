@@ -11,10 +11,12 @@ import Kingfisher
 
 class MovieCollectionCell: UICollectionViewCell {
     
+    // MARK: - Identifier
     enum Identifier: String {
         case custom = "MovieCollectionCell"
     }
     
+    //MARK: - UI Elements
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +39,7 @@ class MovieCollectionCell: UICollectionViewCell {
         label.textColor = .white
         return label
     }()
-    
+    //MARK: - Life Cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -46,16 +48,12 @@ class MovieCollectionCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    //MARK: - Functions
     private func configure() {
         subviews()
-        drawDesign()
         makeImageView()
         makeMovieNameLabel()
         makeMovieOverviewLabel()
-    }
-    
-    private func drawDesign() {
     }
     
     private func subviews() {
@@ -63,14 +61,14 @@ class MovieCollectionCell: UICollectionViewCell {
         addSubview(movieNameLabel)
         addSubview(movieOverviewLabel)
     }
-    
+    //MARK: - Datas for Cell
     func saveModel(model: NowPlayingMovieModelResult) {
         movieNameLabel.text = model.title
         movieOverviewLabel.text = model.overview
         imageView.kf.setImage(with: URL(string: Constant.NetworkConstant.MovieServiceEndPoint.IMAGE_BASE_URL.rawValue + (model.posterPath ?? "")))
     }
 }
-
+    //MARK: - SnapKit Extensions
 extension MovieCollectionCell {
     private func makeImageView() {
         imageView.snp.makeConstraints { make in

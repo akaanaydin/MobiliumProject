@@ -10,9 +10,10 @@ import SnapKit
 import Kingfisher
 
 class MovieDetailController: UIViewController {
-    
+    //MARK: - Properties
     private var detailResults: MovieDetailModel
     
+    //MARK: - UI Elements
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,10 +89,16 @@ class MovieDetailController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+    }
+    //MARK: - Functions
+    private func configure() {
+        subviews()
+        drawDesign()
+        fetchDatas()
         makeScrollView()
         makeContentView()
         makeImageView()
@@ -103,16 +110,23 @@ class MovieDetailController: UIViewController {
         makeMovieOverviewLabel()
     }
     
-    private func configure() {
-        subviews()
-        drawDesign()
-        fetchDatas()
-    }
-    
     private func drawDesign() {
         view.backgroundColor = .white
     }
     
+    private func subviews() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(imageView)
+        contentView.addSubview(movieOverviewLabel)
+        contentView.addSubview(movieNameLabel)
+        contentView.addSubview(releaseDateLabel)
+        contentView.addSubview(imdbVoteLabel)
+        contentView.addSubview(imdbButton)
+        contentView.addSubview(starImageView)
+    }
+    
+    //MARK: - Fetch Detail Datas
     private func fetchDatas() {
         let urlImage = URL(string: Constant.NetworkConstant.MovieServiceEndPoint.IMAGE_BASE_URL.rawValue + (detailResults.posterPath ?? ""))
         imageView.kf.setImage(with: urlImage)
@@ -130,18 +144,8 @@ class MovieDetailController: UIViewController {
         movieOverviewLabel.text = overview
     }
     
-    private func subviews() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubview(imageView)
-        contentView.addSubview(movieOverviewLabel)
-        contentView.addSubview(movieNameLabel)
-        contentView.addSubview(releaseDateLabel)
-        contentView.addSubview(imdbVoteLabel)
-        contentView.addSubview(imdbButton)
-        contentView.addSubview(starImageView)
-    }
-    
+
+    //MARK: - Button Action
     @objc func buttonTapped()
     {
         guard let imdbID = detailResults.imdbID else { return }
@@ -152,6 +156,7 @@ class MovieDetailController: UIViewController {
     
 }
 
+//MARK: - SnapKit Extension
 extension MovieDetailController {
     
     private func makeScrollView() {

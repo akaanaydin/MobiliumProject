@@ -33,6 +33,7 @@ extension Constant {
     }
 }
 
-//MOVIE
+//UP COMING MOVIE
 //https://api.themoviedb.org/3/movie/upcoming?api_key=1999312a18328994486d17f7744c8af2
+//NOW PLAYING MOVIE
 //https://api.themoviedb.org/3/movie/now_playing?api_key=1999312a18328994486d17f7744c8af2

@@ -99,7 +99,7 @@ class MovieTableCell: UITableViewCell {
     }
     
 }
-//MARK: - SnapKit Extensions
+    //MARK: - SnapKit Extensions
 extension MovieTableCell {
     
     private func makeMovieImage() {

@@ -9,12 +9,13 @@ import UIKit
 import SnapKit
 import Alamofire
 
+//MARK: - Protocols
 protocol MovieOutput {
     func selectedMovies(movieID: Int)
 }
 
 class MovieHomeController: UIViewController {
-    
+    //MARK: - UI Elements
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,15 +55,17 @@ class MovieHomeController: UIViewController {
         return pageController
     }()
     
+    //MARK: - Properties
     private lazy var nowPlayingMovieModelResult = [NowPlayingMovieModelResult]()
     private lazy var upComingMovieModelResult = [UpComingMovieModelResult]()
     private var viewModel: MovieViewModelProtocol = MovieViewModel(service: Services())
-
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
-    
+    //MARK: - Functions
     private func configure() {
         subviews()
         drawDesign()
@@ -76,21 +79,22 @@ class MovieHomeController: UIViewController {
     }
     
     private func drawDesign() {
+        //View
         view.backgroundColor = .white
-        
+        //ViewModel
+        viewModel.delegate = self
+        //NavigationBar
         configureNavigationBar(largeTitleColor: .black, backgoundColor: .white, tintColor: .black, title: "Movies", preferredLargeTitle: false)
-                
-        collectionView.register(MovieCollectionCell.self, forCellWithReuseIdentifier: MovieCollectionCell.Identifier.custom.rawValue)
+        //CollectionView
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        viewModel.delegate = self
-        
-        scrollView.delegate = self
-        
+        collectionView.register(MovieCollectionCell.self, forCellWithReuseIdentifier: MovieCollectionCell.Identifier.custom.rawValue)
+        //TableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(MovieTableCell.self, forCellReuseIdentifier: MovieTableCell.Identifier.custom.rawValue)
+        //ScrollView
+        scrollView.delegate = self
     }
     
     private func subviews() {
@@ -100,7 +104,7 @@ class MovieHomeController: UIViewController {
         contentView.addSubview(tableView)
         contentView.addSubview(pageController)
     }
-    
+    //MARK: - Fetch Datas
     private func fetchUpComingMovieDatas() {
         viewModel.fetchUpComingMovies { [weak self] movie in
             guard let movie = movie?.results else { return }
@@ -127,7 +131,7 @@ class MovieHomeController: UIViewController {
 
     }
 }
-
+//MARK: - Snapkit Extension
 extension MovieHomeController {
     private func makeScrollView() {
         scrollView.snp.makeConstraints { make in
@@ -166,7 +170,7 @@ extension MovieHomeController {
         }
     }
 }
-
+//MARK: - CollectionView Extension
 extension MovieHomeController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return nowPlayingMovieModelResult.count
@@ -196,7 +200,7 @@ extension MovieHomeController: UICollectionViewDelegateFlowLayout, UICollectionV
     
 }
 
-//MARK: - Table View Extension
+//MARK: - TableView Extension
 extension MovieHomeController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         upComingMovieModelResult.count
@@ -216,6 +220,7 @@ extension MovieHomeController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+//MARK: - View Model Extension
 extension MovieHomeController: MovieOutput {
     func selectedMovies(movieID: Int) {
         viewModel.getMovieDetail(movieID: movieID) { movie in
@@ -228,7 +233,7 @@ extension MovieHomeController: MovieOutput {
     }
 }
 
-
+//MARK: - ScrollView Extension
 extension MovieHomeController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)

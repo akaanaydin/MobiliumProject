@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 
+//MARK: - Protocols
 protocol MovieViewModelProtocol {
     func fetchUpComingMovies(onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
     func fetchNowPlayingMovies(onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
@@ -16,16 +17,16 @@ protocol MovieViewModelProtocol {
 }
 
 final class MovieViewModel: MovieViewModelProtocol {
-        var delegate: MovieOutput?
-    
+    //MARK: - Properties
+    var delegate: MovieOutput?
     private var service: ServicesProtocol
-    
+    //MARK: - Life Cycle
     init(service: ServicesProtocol) {
         self.service = service
     }
     
 }
-
+//MARK: - Extension Protocol Functions
 extension MovieViewModel {
     func fetchUpComingMovies(onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
         service.fetchUpComingMovies { movie in
