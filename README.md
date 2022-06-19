@@ -12,10 +12,11 @@ I model the data I got from a movie database site and transferred it to the appl
 + Scroll View ✅ 
 + Collection View ✅
 + Table View ✅
++ Pull to Refresh ✅
 
 ## Demo
 
-![giphy](https://user-images.githubusercontent.com/44496296/174489246-64c23671-187e-4305-8846-94b98a638302.gif)
+![giphy-2](https://user-images.githubusercontent.com/44496296/174503487-99a71f74-ff8d-4df2-b705-20bf5bf70d7c.gif)
 
 ## API
 
