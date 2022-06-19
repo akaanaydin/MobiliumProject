@@ -16,7 +16,8 @@ I model the data I got from a movie database site and transferred it to the appl
 
 ## Demo
 
-![giphy-2](https://user-images.githubusercontent.com/44496296/174503487-99a71f74-ff8d-4df2-b705-20bf5bf70d7c.gif)
+![giphy](https://user-images.githubusercontent.com/44496296/174503900-2239129c-7992-4bc6-8f82-368a21e5077e.gif)
+![giphy-2](https://user-images.githubusercontent.com/44496296/174503904-18e48df6-25ef-4179-9fc4-93e137ed054c.gif)
 
 ## API
 
