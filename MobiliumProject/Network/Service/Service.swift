@@ -11,16 +11,16 @@ import Alamofire
 //MARK: - Services Protocol
 protocol ServicesProtocol {
     // Movie Functions
-    func fetchUpComingMovies(onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
-    func fetchNowPlayingMovies(onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
+    func fetchUpComingMovies(page: Int, onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
+    func fetchNowPlayingMovies(page: Int, onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
     func getMovieDetail(movieID: Int, onSuccess: @escaping (MovieDetailModel?) -> Void, onError: @escaping (AFError) -> Void)
 
 }
 
 //MARK: - Services
 final class Services: ServicesProtocol {
-    func fetchUpComingMovies(onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
-        ServiceManager.shared.fetch(path: Constant.NetworkConstant.MovieServiceEndPoint.fetchUpComingMovies()) { (response: UpComingMovieModel) in
+    func fetchUpComingMovies(page: Int, onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
+        ServiceManager.shared.fetch(path: Constant.NetworkConstant.MovieServiceEndPoint.fetchUpComingMovies() + "&page=\(page)") { (response: UpComingMovieModel) in
             onSuccess(response)
         } onError: { error in
             onError(error)
@@ -28,8 +28,8 @@ final class Services: ServicesProtocol {
 
     }
     
-    func fetchNowPlayingMovies(onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
-        ServiceManager.shared.fetch(path: Constant.NetworkConstant.MovieServiceEndPoint.fetchNowPlayingMovies()) { (response:NowPlayingMovieModel) in
+    func fetchNowPlayingMovies(page: Int, onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
+        ServiceManager.shared.fetch(path: Constant.NetworkConstant.MovieServiceEndPoint.fetchNowPlayingMovies()  + "&page=\(page)") { (response:NowPlayingMovieModel) in
             onSuccess(response)
         } onError: { error in
             onError(error)

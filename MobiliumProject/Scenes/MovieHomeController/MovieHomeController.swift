@@ -55,6 +55,12 @@ class MovieHomeController: UIViewController {
         return pageController
     }()
     
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
+    }()
+    
     //MARK: - Properties
     private lazy var nowPlayingMovieModelResult = [NowPlayingMovieModelResult]()
     private lazy var upComingMovieModelResult = [UpComingMovieModelResult]()
@@ -65,12 +71,17 @@ class MovieHomeController: UIViewController {
         super.viewDidLoad()
         configure()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            scrollView.refreshControl = refreshControl
+        }
     //MARK: - Functions
     private func configure() {
         subviews()
         drawDesign()
-        fetchUpComingMovieDatas()
-        fetchNowPlayingMovieDatas()
+        fetchUpComingMovieDatas(page: 1)
+        fetchNowPlayingMovieDatas(page: 1)
         makeScrollView()
         makeContentView()
         makeCollectionView()
@@ -105,8 +116,8 @@ class MovieHomeController: UIViewController {
         contentView.addSubview(pageController)
     }
     //MARK: - Fetch Datas
-    private func fetchUpComingMovieDatas() {
-        viewModel.fetchUpComingMovies { [weak self] movie in
+    private func fetchUpComingMovieDatas(page: Int) {
+        viewModel.fetchUpComingMovies(page: page) { [weak self] movie in
             guard let movie = movie?.results else { return }
             self?.upComingMovieModelResult = movie
             DispatchQueue.main.async {
@@ -117,8 +128,8 @@ class MovieHomeController: UIViewController {
         }
     }
     
-    private func fetchNowPlayingMovieDatas() {
-        viewModel.fetchNowPlayingMovies { [weak self] movie in
+    private func fetchNowPlayingMovieDatas(page: Int) {
+        viewModel.fetchNowPlayingMovies(page: page) { [weak self] movie in
             guard let movie = movie?.results else { return }
             self?.nowPlayingMovieModelResult = movie
             
@@ -130,6 +141,15 @@ class MovieHomeController: UIViewController {
         }
 
     }
+    //MARK: - Refresh Action
+    @objc func refresh()
+       {
+           // Code to refresh table view
+           refreshControl.endRefreshing()
+           let randomPage = Int.random(in: 1...3)
+           fetchUpComingMovieDatas(page: randomPage)
+           fetchNowPlayingMovieDatas(page: randomPage)
+       }
 }
 //MARK: - Snapkit Extension
 extension MovieHomeController {

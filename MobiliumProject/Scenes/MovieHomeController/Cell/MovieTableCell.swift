@@ -115,7 +115,7 @@ extension MovieTableCell {
         cellRightArrow.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
             make.right.equalToSuperview().inset(15)
-//            make.width.equalTo(20)
+            make.width.equalTo(20)
             make.height.equalTo(25)
         }
     }
@@ -140,7 +140,7 @@ extension MovieTableCell {
         movieOverviewLabel.snp.makeConstraints { make in
             make.left.equalTo(movieImage.snp.right).offset(10)
             make.centerY.equalTo(contentView)
-            make.right.equalTo(cellRightArrow.snp.left)
+            make.right.equalToSuperview().inset(30)
             
         }
     }

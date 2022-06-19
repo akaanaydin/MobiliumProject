@@ -10,8 +10,8 @@ import Alamofire
 
 //MARK: - Protocols
 protocol MovieViewModelProtocol {
-    func fetchUpComingMovies(onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
-    func fetchNowPlayingMovies(onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
+    func fetchUpComingMovies(page: Int, onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
+    func fetchNowPlayingMovies(page: Int, onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void)
     func getMovieDetail(movieID: Int, onSuccess: @escaping (MovieDetailModel?) -> Void, onError: @escaping (AFError) -> Void)
         var delegate: MovieOutput? { get set }
 }
@@ -28,8 +28,8 @@ final class MovieViewModel: MovieViewModelProtocol {
 }
 //MARK: - Extension Protocol Functions
 extension MovieViewModel {
-    func fetchUpComingMovies(onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
-        service.fetchUpComingMovies { movie in
+    func fetchUpComingMovies(page: Int, onSuccess: @escaping (UpComingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
+        service.fetchUpComingMovies(page: page) { movie in
             guard let movie = movie else {
                 onSuccess(nil)
                 return
@@ -41,8 +41,8 @@ extension MovieViewModel {
         
     }
     
-    func fetchNowPlayingMovies(onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
-        service.fetchNowPlayingMovies { movie in
+    func fetchNowPlayingMovies(page: Int, onSuccess: @escaping (NowPlayingMovieModel?) -> Void, onError: @escaping (AFError) -> Void) {
+        service.fetchNowPlayingMovies(page: page) { movie in
             guard let movie = movie else {
                 onSuccess(nil)
                 return
